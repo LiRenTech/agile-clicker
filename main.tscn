@@ -22,6 +22,14 @@ offset_right = 735.0
 offset_bottom = 39.0
 text = "0"
 
+[node name="GameOverLabel" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 314.0
+offset_top = 172.0
+offset_right = 493.0
+offset_bottom = 232.0
+text = "GameOver"
+
 [node name="Timer" type="Timer" parent="."]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
