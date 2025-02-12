@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu2o8ie3j82oa"]
+
+[ext_resource type="Script" path="res://ball.gd" id="1_chtks"]
+[ext_resource type="Texture2D" uid="uid://bu4cdcutie5bp" path="res://assets/dirt_ball.png" id="1_dqt1x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igqwa"]
+radius = 36.0
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_chtks")
+
+[node name="DirtBall" type="Sprite2D" parent="."]
+position = Vector2(3, -3)
+scale = Vector2(4.9375, 4.9375)
+texture = ExtResource("1_dqt1x")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_igqwa")
