@@ -3,7 +3,10 @@ var score = 0  # 分数
 var killed_count = 0  # 击毁石头的数量
 var game_active = true  # 游戏状态标志
 var ball_scene = preload("res://ball.tscn")  # 加载球对象场景
+var split_scene = preload("res://split.tscn")
 var timer_interval = 1.0  # 初始生成间隔
+var split_level = 0  # 击碎分裂等级
+@export var suction_level = 0
 
 # 初始化
 func _ready():
@@ -24,6 +27,7 @@ func spawn_ball():
 		randi() % int(screen_size.y)
 	)
 	ball.position = random_pos
+	ball.attraction_strength = suction_level
 	# 连接球消失时的信号
 	ball.connect("ball_clicked", Callable(self, "_on_ball_clicked"))
 	ball.connect("ball_expired", Callable(self, "_on_ball_expired"))
@@ -31,13 +35,16 @@ func spawn_ball():
 func update_ui():
 	$CanvasLayer/ScoreLabel.text = "score: " + str(score) + "\n" + "killed: " + str(killed_count)
 
-# 点击加分逻辑
+# 点击击杀逻辑
 func _on_ball_clicked():
 	if !game_active: 
 		return
 	score += 1
 	killed_count += 1
 	update_ui()
+	# 产生新的碎片
+	#var split = split_scene.instantiate()
+	#add_child(split)
 	# 动态调整球生成速度
 	timer_interval = max(0.2, timer_interval * 0.95)  # 每次减少生成间隔
 	$Timer.wait_time = timer_interval
@@ -55,6 +62,8 @@ func _on_ball_expired():
 
 func game_over():
 	game_active = false
+	suction_level = 0
+	split_level = 0
 	$Timer.stop()
 	$CanvasLayer/GameOverLabel.visible = true
 	$CanvasLayer/RestartButton.visible = true
@@ -81,4 +90,19 @@ func _on_restart_button_pressed():
 	$Timer.wait_time = 1
 	$Timer.start()
 	
+	pass # Replace with function body.
+
+
+func _on_level_up_split_button_button_down():
+	split_level += 1
+	score -= 1
+	var split = split_scene.instantiate()
+	add_child(split)
+	pass # Replace with function body.
+
+
+func _on_suction_level_button_button_down():
+	suction_level += 10
+	score -= 1
+	update_ui()
 	pass # Replace with function body.
