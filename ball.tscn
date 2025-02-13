@@ -4,14 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://bu4cdcutie5bp" path="res://assets/dirt_ball.png" id="1_dqt1x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_igqwa"]
-radius = 36.0
+radius = 102.044
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_chtks")
 
 [node name="DirtBall" type="Sprite2D" parent="."]
+texture_filter = 1
 position = Vector2(3, -3)
-scale = Vector2(4.9375, 4.9375)
+scale = Vector2(14.375, 14.375)
 texture = ExtResource("1_dqt1x")
 
 [node name="Area2D" type="Area2D" parent="."]

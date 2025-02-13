@@ -1,9 +1,9 @@
 extends Node
 var score = 0  # 分数
+var killed_count = 0  # 击毁石头的数量
 var game_active = true  # 游戏状态标志
 var ball_scene = preload("res://ball.tscn")  # 加载球对象场景
 var timer_interval = 1.0  # 初始生成间隔
-var max_balls = 5  # 最大同时存在的球数量
 
 # 初始化
 func _ready():
@@ -29,12 +29,14 @@ func spawn_ball():
 	ball.connect("ball_expired", Callable(self, "_on_ball_expired"))
 
 func update_ui():
-	$CanvasLayer/ScoreLabel.text = "Score: %d" % score
+	$CanvasLayer/ScoreLabel.text = "score: " + str(score) + "\n" + "killed: " + str(killed_count)
+
 # 点击加分逻辑
 func _on_ball_clicked():
 	if !game_active: 
 		return
 	score += 1
+	killed_count += 1
 	update_ui()
 	# 动态调整球生成速度
 	timer_interval = max(0.2, timer_interval * 0.95)  # 每次减少生成间隔
@@ -54,15 +56,29 @@ func _on_ball_expired():
 func game_over():
 	game_active = false
 	$Timer.stop()
-	get_tree().paused = true
 	$CanvasLayer/GameOverLabel.visible = true
+	$CanvasLayer/RestartButton.visible = true
 
+	
 # 每次 Timer 触发时生成一个球
 func _on_timer_timeout():
-	if get_tree().paused:  # 如果游戏暂停，不生成球
+	if !game_active:
+		# 游戏暂停不触发
 		return
 
-	#if get_node("/root/VisibleBallCount").get_child_count() >= max_balls:
-		#return  # 如果球数量达到上限，则不生成新球
-
 	spawn_ball()
+
+
+func _on_restart_button_pressed():
+	print("restart")
+	game_active = true
+	$CanvasLayer/GameOverLabel.visible = false
+	$CanvasLayer/RestartButton.visible = false
+	score = 0
+	killed_count = 0
+	update_ui()
+	timer_interval = 1
+	$Timer.wait_time = 1
+	$Timer.start()
+	
+	pass # Replace with function body.
