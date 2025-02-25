@@ -7,3 +7,6 @@ export.cfg
 # 包含导出密钥等敏感信息（建议忽略！）
 export_presets.cfg
 
+dist/
+
+mai*.tmp

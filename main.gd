@@ -7,13 +7,14 @@ var split_scene = preload("res://split.tscn")
 var timer_interval = 1.0  # 初始生成间隔
 var split_level = 0  # 击碎分裂等级
 @export var suction_level = 0
+@onready var score_label = $CanvasLayer/ScoreLabel
 
 # 初始化
 func _ready():
 	print("ready")
 	$Timer.start()  # 开始生成球
 	print("start!")
-	
+
 
 # 生成一个随机位置的球
 func spawn_ball():
@@ -33,11 +34,18 @@ func spawn_ball():
 	ball.connect("ball_expired", Callable(self, "_on_ball_expired"))
 
 func update_ui():
-	$CanvasLayer/ScoreLabel.text = "score: " + str(score) + "\n" + "killed: " + str(killed_count)
+	score_label.text = "score: %d\nkilled: %d\ninterval: %.2f\nsuction_level: %d" % [
+		score,
+		killed_count,
+		timer_interval,
+		suction_level
+	]
+	pass
+
 
 # 点击击杀逻辑
 func _on_ball_clicked():
-	if !game_active: 
+	if !game_active:
 		return
 	score += 1
 	killed_count += 1
@@ -46,12 +54,12 @@ func _on_ball_clicked():
 	#var split = split_scene.instantiate()
 	#add_child(split)
 	# 动态调整球生成速度
-	timer_interval = max(0.2, timer_interval * 0.95)  # 每次减少生成间隔
+	timer_interval = max(0.016, timer_interval * 0.95)  # 每次减少生成间隔
 	$Timer.wait_time = timer_interval
 
 # 自然消失扣分逻辑
 func _on_ball_expired():
-	if !game_active: 
+	if !game_active:
 		return
 	score -= 2  # 扣分幅度大于加分
 	update_ui()
@@ -74,7 +82,6 @@ func _on_timer_timeout():
 	if !game_active:
 		# 游戏暂停不触发
 		return
-
 	spawn_ball()
 
 
