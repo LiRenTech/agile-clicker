@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dn5j2h175sk1p"]
+[gd_scene load_steps=8 format=3 uid="uid://dn5j2h175sk1p"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_rstm7"]
 [ext_resource type="Texture2D" uid="uid://dwdx4rlggcx7d" path="res://assets/background.jpg" id="2_w3hb6"]
 [ext_resource type="AudioStream" uid="uid://b1g1mxc7vpf1f" path="res://assets/sounds/drop.mp3" id="3_u1754"]
+[ext_resource type="AudioStream" uid="uid://dxfygh5sbawso" path="res://assets/sounds/ding.mp3" id="4_k32rp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nl362"]
 font_size = 32
@@ -68,6 +69,7 @@ attenuation = 0.757858
 max_polyphony = 10
 
 [node name="GameOver" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_k32rp")
 
 [connection signal="pressed" from="CanvasLayer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

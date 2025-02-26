@@ -20,8 +20,8 @@ func _ready():
 # 生成一个随机位置的球
 func spawn_ball():
 	var ball = ball_scene.instantiate()
+	ball.add_to_group("active_balls")
 	add_child(ball)
-
 	# 设置随机位置
 	var screen_size = get_viewport().size
 	var random_pos = Vector2(
@@ -79,7 +79,17 @@ func game_over():
 	game_active = false
 	suction_level = 0
 	split_level = 0
+	$GameOver.play()
 	$Timer.stop()
+	var balls = get_tree().get_nodes_in_group("active_balls")
+	
+	# 批量删除
+	for ball in balls:
+		ball.queue_free()  # 安全删除节点
+	# 可选：立即强制释放内存
+	Engine.get_main_loop().process_frame  # 等待一帧
+	RenderingServer.force_draw()          # 强制渲染刷新
+	
 	$CanvasLayer/GameOverLabel.visible = true
 	$CanvasLayer/RestartButton.visible = true
 
