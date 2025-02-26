@@ -45,7 +45,7 @@ func update_ui():
 
 
 # 点击击杀逻辑
-func _on_ball_clicked():
+func _on_ball_clicked(ball_dead_position, ball_dead_scale):
 	if !game_active:
 		return
 	score += 1
@@ -55,7 +55,10 @@ func _on_ball_clicked():
 	# 增加爆炸效果
 	var ball_explosion = ball_explosion_scene.instantiate()
 	add_child(ball_explosion)
-
+	ball_explosion.position = ball_dead_position
+	ball_explosion.scale = ball_dead_scale
+	# var animated_sprite = ball_explosion.get_node("AnimatedSprite2D")
+	# animated_sprite.play("explode")
 	# 产生新的碎片
 	#var split = split_scene.instantiate()
 	#add_child(split)

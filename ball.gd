@@ -30,7 +30,7 @@ func _ready():
 # 点击
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		emit_signal("ball_clicked")
+		emit_signal("ball_clicked", position, scale)
 		queue_free()
 
 
