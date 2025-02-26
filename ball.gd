@@ -7,7 +7,7 @@ signal ball_clicked  # 点击加分信号
 @export var shrink_speed: float = 0.2  # 缩小速度（可在 Inspector 调整）
 @export var attraction_strength: float = 100.0  # 引力强度
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _physics_process(delta):
 	# 吸引力影响
 	var mouse_pos = get_viewport().get_mouse_position()  # 获取鼠标位置
@@ -27,7 +27,8 @@ func _physics_process(delta):
 func _ready():
 	$Area2D.input_event.connect(_on_Area2D_input_event)
 
-func _on_Area2D_input_event(viewport, event, shape_idx):
+# 点击
+func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		emit_signal("ball_clicked")
 		queue_free()

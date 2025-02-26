@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dn5j2h175sk1p"]
+[gd_scene load_steps=6 format=3 uid="uid://dn5j2h175sk1p"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_rstm7"]
+[ext_resource type="Texture2D" uid="uid://dwdx4rlggcx7d" path="res://assets/background.jpg" id="2_w3hb6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nl362"]
 font_size = 32
@@ -67,6 +68,14 @@ offset_right = 413.0
 offset_bottom = 1020.0
 text = "提高吸力等级
 -1 score"
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+z_as_relative = false
+position = Vector2(960.889, 542.75)
+scale = Vector2(1.50069, 1.50069)
+texture = ExtResource("2_w3hb6")
+metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="."]
 

@@ -3,6 +3,7 @@ var score = 0  # 分数
 var killed_count = 0  # 击毁石头的数量
 var game_active = true  # 游戏状态标志
 var ball_scene = preload("res://ball.tscn")  # 加载球对象场景
+var ball_explosion_scene = preload("res://ball_explosion.tscn")  # 加载球爆炸对象场景
 var split_scene = preload("res://split.tscn")
 var timer_interval = 1.0  # 初始生成间隔
 var split_level = 0  # 击碎分裂等级
@@ -50,6 +51,11 @@ func _on_ball_clicked():
 	score += 1
 	killed_count += 1
 	update_ui()
+	
+	# 增加爆炸效果
+	var ball_explosion = ball_explosion_scene.instantiate()
+	add_child(ball_explosion)
+
 	# 产生新的碎片
 	#var split = split_scene.instantiate()
 	#add_child(split)

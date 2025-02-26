@@ -7,6 +7,7 @@
 radius = 102.044
 
 [node name="Node2D" type="Node2D"]
+top_level = true
 script = ExtResource("1_chtks")
 
 [node name="DirtBall" type="Sprite2D" parent="."]
