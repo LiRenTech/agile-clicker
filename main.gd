@@ -13,6 +13,9 @@ var split_level = 0  # 击碎分裂等级
 # 初始化
 func _ready():
 	print("ready")
+	var theme = preload("res://assets/fonts/unifont-16.0.02.otf")
+	$CanvasLayer/RestartButton.theme = theme
+	
 	$Timer.start()  # 开始生成球
 	print("start!")
 
