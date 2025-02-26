@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn5j2h175sk1p"]
+[gd_scene load_steps=7 format=3 uid="uid://dn5j2h175sk1p"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_rstm7"]
 [ext_resource type="Texture2D" uid="uid://dwdx4rlggcx7d" path="res://assets/background.jpg" id="2_w3hb6"]
+[ext_resource type="AudioStream" uid="uid://b1g1mxc7vpf1f" path="res://assets/sounds/drop.mp3" id="3_u1754"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nl362"]
 font_size = 32
@@ -51,24 +52,6 @@ offset_right = 1191.0
 offset_bottom = 630.0
 text = "Restart"
 
-[node name="LevelUpSplitButton" type="Button" parent="CanvasLayer"]
-visible = false
-offset_left = 70.0
-offset_top = 796.0
-offset_right = 413.0
-offset_bottom = 892.0
-action_mode = 0
-text = "碎片等级：0
-升级（-10￥）"
-
-[node name="SuctionLevelButton" type="Button" parent="CanvasLayer"]
-offset_left = 70.0
-offset_top = 923.0
-offset_right = 413.0
-offset_bottom = 1020.0
-text = "提高吸力等级
--1 score"
-
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -1
 z_as_relative = false
@@ -79,7 +62,12 @@ metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="ballEpired" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_u1754")
+attenuation = 0.757858
+max_polyphony = 10
+
+[node name="GameOver" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="pressed" from="CanvasLayer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="button_down" from="CanvasLayer/LevelUpSplitButton" to="." method="_on_level_up_split_button_button_down"]
-[connection signal="button_down" from="CanvasLayer/SuctionLevelButton" to="." method="_on_suction_level_button_button_down"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

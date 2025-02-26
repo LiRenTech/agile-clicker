@@ -19,7 +19,9 @@ func _physics_process(delta):
 	
 	# 缩小到阈值时消失
 	if scale.x <= 0.1:
+		# 播放音效		
 		emit_signal("ball_expired")
+		
 		queue_free()
 	pass
 	

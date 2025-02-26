@@ -57,11 +57,6 @@ func _on_ball_clicked(ball_dead_position, ball_dead_scale):
 	add_child(ball_explosion)
 	ball_explosion.position = ball_dead_position
 	ball_explosion.scale = ball_dead_scale
-	# var animated_sprite = ball_explosion.get_node("AnimatedSprite2D")
-	# animated_sprite.play("explode")
-	# 产生新的碎片
-	#var split = split_scene.instantiate()
-	#add_child(split)
 	# 动态调整球生成速度
 	timer_interval = max(0.016, timer_interval * 0.95)  # 每次减少生成间隔
 	$Timer.wait_time = timer_interval
@@ -72,6 +67,9 @@ func _on_ball_expired():
 		return
 	score -= 2  # 扣分幅度大于加分
 	update_ui()
+	# 播放音效
+	$ballEpired.pitch_scale = randf_range(0.6, 1.5)
+	$ballEpired.play()
 	
 	# 游戏结束条件
 	if score <= 0:
@@ -106,19 +104,4 @@ func _on_restart_button_pressed():
 	$Timer.wait_time = 1
 	$Timer.start()
 	
-	pass # Replace with function body.
-
-
-func _on_level_up_split_button_button_down():
-	split_level += 1
-	score -= 1
-	var split = split_scene.instantiate()
-	add_child(split)
-	pass # Replace with function body.
-
-
-func _on_suction_level_button_button_down():
-	suction_level += 10
-	score -= 1
-	update_ui()
 	pass # Replace with function body.
