@@ -36,17 +36,25 @@ func spawn_ball():
 	ball.add_to_group("active_balls")
 	add_child(ball)
 	# 设置随机位置
-
-	var random_pos = Vector2(
-		randi_range(GENERATE_PADDING, 1920 - GENERATE_PADDING),
-		randi_range(GENERATE_PADDING, 1080 - GENERATE_PADDING)
-	)
-	ball.position = random_pos
+	ball.position = get_random_position()
 	ball.attraction_strength = suction_level
 	ball.shrink_speed = ball_shrink_speed
 	# 连接球消失时的信号
 	ball.connect("ball_clicked", Callable(self, "_on_ball_clicked"))
 	ball.connect("ball_expired", Callable(self, "_on_ball_expired"))
+
+func get_random_position() -> Vector2:
+	# 随机生成一个位置，尽量保证不重叠
+	var random_pos = Vector2(
+		randi_range(GENERATE_PADDING, 1920 - GENERATE_PADDING),
+		randi_range(GENERATE_PADDING, 1080 - GENERATE_PADDING)
+	)
+	var balls = get_tree().get_nodes_in_group("active_balls")
+	for ball in balls:
+		if ball.position.distance_to(random_pos) < 100:
+			# 距离太近，重新生成
+			return get_random_position()
+	return random_pos
 
 func update_ui():
 	score_label.text = "score: %d\nkilled: %d\ninterval: %.2f\nshrink_speed: %.2f" % [
