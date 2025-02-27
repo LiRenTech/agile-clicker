@@ -6,7 +6,6 @@ var ball_scene = preload("res://scenes/ball.tscn")  # 加载球对象场景
 var ball_explosion_scene = preload("res://scenes/ball_explosion.tscn")  # 加载球爆炸对象场景
 var split_scene = preload("res://scenes/split.tscn")
 var timer_interval = 1.0  # 初始生成间隔
-var split_level = 0  # 击碎分裂等级
 @export var suction_level = 0
 @onready var score_label = $CanvasLayer/ScoreLabel
 
@@ -20,17 +19,19 @@ func _ready():
 	print("start!")
 
 
+const GENERATE_PADDING = 100  
+"""生成的边距"""
+
 # 生成一个随机位置的球
 func spawn_ball():
 	var ball = ball_scene.instantiate()
 	ball.add_to_group("active_balls")
 	add_child(ball)
 	# 设置随机位置
-	#var screen_size = get_viewport().size
-	#print(screen_size)
+
 	var random_pos = Vector2(
-		randi() % int(1920),
-		randi() % int(1080)
+		randi_range(GENERATE_PADDING, 1920 - GENERATE_PADDING),
+		randi_range(GENERATE_PADDING, 1080 - GENERATE_PADDING)
 	)
 	ball.position = random_pos
 	ball.attraction_strength = suction_level
@@ -82,7 +83,6 @@ func _on_ball_expired():
 func game_over():
 	game_active = false
 	suction_level = 0
-	split_level = 0
 	$GameOver.play()
 	$Timer.stop()
 	var balls = get_tree().get_nodes_in_group("active_balls")
