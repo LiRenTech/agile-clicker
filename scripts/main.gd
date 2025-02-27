@@ -4,10 +4,15 @@ var killed_count = 0  # 击毁石头的数量
 var game_active = true  # 游戏状态标志
 var ball_scene = preload("res://scenes/ball.tscn")  # 加载球对象场景
 var ball_explosion_scene = preload("res://scenes/ball_explosion.tscn")  # 加载球爆炸对象场景
+var ball_expired_scene = preload("res://scenes/ball_expired.tscn")  # 加载球自然消失对象场景
 var split_scene = preload("res://scenes/split.tscn")
-var timer_interval = 1.0  # 初始生成间隔
 
-var ball_shrink_speed = 0.15  # 当前难度下，小球掉落速度
+const INIT_TIMER_INTERVAL = 1.0  # 初始生成间隔
+var timer_interval = INIT_TIMER_INTERVAL  # 初始生成间隔
+
+const INIT_BALL_SHRINK_SPEED = 0.15
+
+var ball_shrink_speed = INIT_BALL_SHRINK_SPEED  # 当前难度下，小球掉落速度
 const MAX_BALL_SHRINK_SPEED = 10
 """最快小球缩减速度"""
 
@@ -91,10 +96,17 @@ func _on_ball_clicked(ball_dead_position, ball_dead_scale):
 	$Timer.wait_time = timer_interval
 
 # 自然消失扣分逻辑
-func _on_ball_expired():
+func _on_ball_expired(ball_dead_position):
 	if !game_active:
 		return
 	score -= 2  # 扣分幅度大于加分
+
+	# 增加消失效果
+	var ball_expired = ball_expired_scene.instantiate()
+	add_child(ball_expired)
+	ball_expired.position = ball_dead_position
+	ball_expired.add_to_group("ball_animations")
+
 	update_ui()
 	# 播放音效
 	$ballEpired.pitch_scale = randf_range(0.6, 1.5)
@@ -114,6 +126,11 @@ func game_over():
 	# 批量删除
 	for ball in balls:
 		ball.queue_free()  # 安全删除节点
+	
+	var animations = get_tree().get_nodes_in_group("ball_animations")
+	for animation in animations:
+		animation.queue_free()  # 安全删除节点
+
 	# 可选：立即强制释放内存
 	Engine.get_main_loop().process_frame  # 等待一帧
 	RenderingServer.force_draw()          # 强制渲染刷新
@@ -130,16 +147,20 @@ func _on_timer_timeout():
 	spawn_ball()
 
 
+func _reset_data():
+	score = 0
+	killed_count = 0
+	timer_interval = INIT_TIMER_INTERVAL
+	ball_shrink_speed = INIT_BALL_SHRINK_SPEED
+
+
 func _on_restart_button_pressed():
-	print("restart")
 	game_active = true
 	$CanvasLayer/GameOverLabel.visible = false
 	$CanvasLayer/RestartButton.visible = false
-	score = 0
-	killed_count = 0
-	update_ui()
-	timer_interval = 1
+	_reset_data()
 	$Timer.wait_time = 1
 	$Timer.start()
+	update_ui()
 	
 	pass # Replace with function body.
