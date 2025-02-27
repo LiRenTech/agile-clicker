@@ -25,6 +25,8 @@ window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 mouse_cursor/custom_image="res://assets/mouse.png"
+mouse_cursor/custom_image_hotspot=Vector2(25, 25)
+mouse_cursor/tooltip_position_offset=Vector2(25, 25)
 
 [rendering]
 
