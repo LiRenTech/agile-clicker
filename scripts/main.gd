@@ -2,9 +2,9 @@ extends Node
 var score = 0  # 分数
 var killed_count = 0  # 击毁石头的数量
 var game_active = true  # 游戏状态标志
-var ball_scene = preload("res://ball.tscn")  # 加载球对象场景
-var ball_explosion_scene = preload("res://ball_explosion.tscn")  # 加载球爆炸对象场景
-var split_scene = preload("res://split.tscn")
+var ball_scene = preload("res://scenes/ball.tscn")  # 加载球对象场景
+var ball_explosion_scene = preload("res://scenes/ball_explosion.tscn")  # 加载球爆炸对象场景
+var split_scene = preload("res://scenes/split.tscn")
 var timer_interval = 1.0  # 初始生成间隔
 var split_level = 0  # 击碎分裂等级
 @export var suction_level = 0
@@ -26,10 +26,11 @@ func spawn_ball():
 	ball.add_to_group("active_balls")
 	add_child(ball)
 	# 设置随机位置
-	var screen_size = get_viewport().size
+	#var screen_size = get_viewport().size
+	#print(screen_size)
 	var random_pos = Vector2(
-		randi() % int(screen_size.x),
-		randi() % int(screen_size.y)
+		randi() % int(1920),
+		randi() % int(1080)
 	)
 	ball.position = random_pos
 	ball.attraction_strength = suction_level

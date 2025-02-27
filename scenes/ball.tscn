@@ -1,20 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://cu2o8ie3j82oa"]
 
-[ext_resource type="Script" path="res://ball.gd" id="1_chtks"]
-[ext_resource type="Texture2D" uid="uid://bu4cdcutie5bp" path="res://assets/dirt_ball.png" id="1_dqt1x"]
+[ext_resource type="Script" path="res://scripts/ball.gd" id="1_q2m4w"]
+[ext_resource type="Texture2D" uid="uid://bu4cdcutie5bp" path="res://assets/dirt_ball.png" id="2_1ci4c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_igqwa"]
 radius = 102.044
 
 [node name="Node2D" type="Node2D"]
 top_level = true
-script = ExtResource("1_chtks")
+script = ExtResource("1_q2m4w")
 
 [node name="DirtBall" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(3, -3)
 scale = Vector2(14.375, 14.375)
-texture = ExtResource("1_dqt1x")
+texture = ExtResource("2_1ci4c")
 
 [node name="Area2D" type="Area2D" parent="."]
 

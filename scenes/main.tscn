@@ -1,21 +1,21 @@
 [gd_scene load_steps=9 format=3 uid="uid://dn5j2h175sk1p"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_rstm7"]
-[ext_resource type="FontFile" uid="uid://cyddxsrr0mcxi" path="res://assets/fonts/unifont-16.0.02.otf" id="2_3h27g"]
-[ext_resource type="Texture2D" uid="uid://dwdx4rlggcx7d" path="res://assets/background.jpg" id="2_w3hb6"]
-[ext_resource type="AudioStream" uid="uid://b1g1mxc7vpf1f" path="res://assets/sounds/drop.mp3" id="3_u1754"]
-[ext_resource type="AudioStream" uid="uid://dxfygh5sbawso" path="res://assets/sounds/ding.mp3" id="4_k32rp"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_0hkbp"]
+[ext_resource type="FontFile" uid="uid://cyddxsrr0mcxi" path="res://assets/fonts/unifont-16.0.02.otf" id="2_ykxr1"]
+[ext_resource type="Texture2D" uid="uid://dwdx4rlggcx7d" path="res://assets/background.jpg" id="3_xllsf"]
+[ext_resource type="AudioStream" uid="uid://b1g1mxc7vpf1f" path="res://assets/sounds/drop.mp3" id="4_a30ji"]
+[ext_resource type="AudioStream" uid="uid://dxfygh5sbawso" path="res://assets/sounds/ding.mp3" id="5_phxta"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_nl362"]
-font = ExtResource("2_3h27g")
+font = ExtResource("2_ykxr1")
 font_size = 60
 
 [sub_resource type="LabelSettings" id="LabelSettings_017m4"]
-font = ExtResource("2_3h27g")
+font = ExtResource("2_ykxr1")
 font_size = 50
 
 [sub_resource type="LabelSettings" id="LabelSettings_urdox"]
-font = ExtResource("2_3h27g")
+font = ExtResource("2_ykxr1")
 font_size = 122
 outline_size = 4
 outline_color = Color(0.0768358, 0.0768358, 0.0768358, 1)
@@ -24,7 +24,7 @@ shadow_color = Color(0.0235294, 0.0196078, 0.0117647, 0.670588)
 shadow_offset = Vector2(10, 10)
 
 [node name="Main" type="Node"]
-script = ExtResource("1_rstm7")
+script = ExtResource("1_0hkbp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -70,18 +70,18 @@ z_index = -1
 z_as_relative = false
 position = Vector2(960.889, 542.75)
 scale = Vector2(1.50069, 1.50069)
-texture = ExtResource("2_w3hb6")
+texture = ExtResource("3_xllsf")
 metadata/_edit_lock_ = true
 
 [node name="Timer" type="Timer" parent="."]
 
 [node name="ballEpired" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_u1754")
+stream = ExtResource("4_a30ji")
 attenuation = 0.757858
 max_polyphony = 10
 
 [node name="GameOver" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_k32rp")
+stream = ExtResource("5_phxta")
 
 [connection signal="pressed" from="CanvasLayer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
