@@ -6,8 +6,18 @@ var ball_scene = preload("res://scenes/ball.tscn")  # 加载球对象场景
 var ball_explosion_scene = preload("res://scenes/ball_explosion.tscn")  # 加载球爆炸对象场景
 var split_scene = preload("res://scenes/split.tscn")
 var timer_interval = 1.0  # 初始生成间隔
+
+var ball_shrink_speed = 0.15  # 当前难度下，小球掉落速度
+const MAX_BALL_SHRINK_SPEED = 10
+"""最快小球缩减速度"""
+
 @export var suction_level = 0
 @onready var score_label = $CanvasLayer/ScoreLabel
+
+const GENERATE_PADDING = 100  
+"""生成的边距"""
+const MIN_GENERATE_INTERVAL = 0.4
+"""最短生成间隔"""
 
 # 初始化
 func _ready():
@@ -19,8 +29,6 @@ func _ready():
 	print("start!")
 
 
-const GENERATE_PADDING = 100  
-"""生成的边距"""
 
 # 生成一个随机位置的球
 func spawn_ball():
@@ -35,16 +43,17 @@ func spawn_ball():
 	)
 	ball.position = random_pos
 	ball.attraction_strength = suction_level
+	ball.shrink_speed = ball_shrink_speed
 	# 连接球消失时的信号
 	ball.connect("ball_clicked", Callable(self, "_on_ball_clicked"))
 	ball.connect("ball_expired", Callable(self, "_on_ball_expired"))
 
 func update_ui():
-	score_label.text = "score: %d\nkilled: %d\ninterval: %.2f\nsuction_level: %d" % [
+	score_label.text = "score: %d\nkilled: %d\ninterval: %.2f\nshrink_speed: %.2f" % [
 		score,
 		killed_count,
 		timer_interval,
-		suction_level
+		ball_shrink_speed
 	]
 	pass
 
@@ -63,7 +72,14 @@ func _on_ball_clicked(ball_dead_position, ball_dead_scale):
 	ball_explosion.position = ball_dead_position
 	ball_explosion.scale = ball_dead_scale
 	# 动态调整球生成速度
-	timer_interval = max(0.016, timer_interval * 0.95)  # 每次减少生成间隔
+	# 每次减少生成间隔
+	timer_interval = max(MIN_GENERATE_INTERVAL, timer_interval * 0.95)
+	if timer_interval <= MIN_GENERATE_INTERVAL:
+		# 已经达到最小间隔，开始加快小球shrink速度
+		# ball_shrink_speed = min(MAX_BALL_SHRINK_SPEED, ball_shrink_speed * 1.01)
+		ball_shrink_speed *= 1.01
+		print("加速掉落")
+		pass
 	$Timer.wait_time = timer_interval
 
 # 自然消失扣分逻辑
