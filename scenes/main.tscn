@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dn5j2h175sk1p"]
+[gd_scene load_steps=11 format=3 uid="uid://dn5j2h175sk1p"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_0hkbp"]
 [ext_resource type="FontFile" uid="uid://cyddxsrr0mcxi" path="res://assets/fonts/unifont-16.0.02.otf" id="2_ykxr1"]
@@ -12,7 +12,7 @@ font_size = 60
 
 [sub_resource type="LabelSettings" id="LabelSettings_017m4"]
 font = ExtResource("2_ykxr1")
-font_size = 50
+font_size = 40
 
 [sub_resource type="LabelSettings" id="LabelSettings_urdox"]
 font = ExtResource("2_ykxr1")
@@ -22,6 +22,14 @@ outline_color = Color(0.0768358, 0.0768358, 0.0768358, 1)
 shadow_size = 19
 shadow_color = Color(0.0235294, 0.0196078, 0.0117647, 0.670588)
 shadow_offset = Vector2(10, 10)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5elqg"]
+font = ExtResource("2_ykxr1")
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_14ek5"]
+font = ExtResource("2_ykxr1")
+font_size = 30
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0hkbp")
@@ -52,7 +60,7 @@ offset_left = 664.0
 offset_top = 280.0
 offset_right = 1306.0
 offset_bottom = 478.0
-text = "GameOver"
+text = "训练强制结束"
 label_settings = SubResource("LabelSettings_urdox")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -64,6 +72,22 @@ offset_top = 553.0
 offset_right = 1191.0
 offset_bottom = 630.0
 text = "Restart"
+
+[node name="History" type="Label" parent="CanvasLayer"]
+offset_left = 1616.0
+offset_top = 40.0
+offset_right = 1888.0
+offset_bottom = 120.0
+text = "history"
+label_settings = SubResource("LabelSettings_5elqg")
+
+[node name="Version" type="Label" parent="CanvasLayer"]
+offset_left = 32.0
+offset_top = 1008.0
+offset_right = 272.0
+offset_bottom = 1064.0
+text = "version"
+label_settings = SubResource("LabelSettings_14ek5")
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -1

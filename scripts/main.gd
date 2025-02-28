@@ -18,11 +18,16 @@ const MAX_BALL_SHRINK_SPEED = 10
 
 @export var suction_level = 0
 @onready var score_label = $CanvasLayer/ScoreLabel
+@onready var history_label = $CanvasLayer/History
 
 const GENERATE_PADDING = 100  
 """生成的边距"""
 const MIN_GENERATE_INTERVAL = 0.4
 """最短生成间隔"""
+
+# 这里不能用const，否则导致无法追加
+
+var user_killed_history: Array[int] = []
 
 # 初始化
 func _ready():
@@ -32,6 +37,14 @@ func _ready():
 	
 	$Timer.start()  # 开始生成球
 	print("start!")
+	var engine_version = Engine.get_version_info()
+	var project_ver = ProjectSettings.get_setting("application/config/version")
+	$CanvasLayer/Version.text = "engine_version: %d.%d.%d\nproject_ver: %s" % [
+		engine_version.major, 
+		engine_version.minor, 
+		engine_version.patch,
+		project_ver
+	]
 
 
 
@@ -68,7 +81,10 @@ func update_ui():
 		timer_interval,
 		ball_shrink_speed
 	]
-	pass
+	var history_label_text = "\n"
+	for i in range(len(user_killed_history)):
+		history_label_text += "%d: %d\n" % [i+1, user_killed_history[i]]
+	history_label.text = "history: %s" % [history_label_text]
 
 
 # 点击击杀逻辑
@@ -158,6 +174,9 @@ func _on_restart_button_pressed():
 	game_active = true
 	$CanvasLayer/GameOverLabel.visible = false
 	$CanvasLayer/RestartButton.visible = false
+	# 记录历史
+	user_killed_history.append(killed_count)
+
 	_reset_data()
 	$Timer.wait_time = 1
 	$Timer.start()
