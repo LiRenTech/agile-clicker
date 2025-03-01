@@ -1,18 +1,18 @@
 extends Node
-var score = 0  # 分数
-var killed_count = 0  # 击毁石头的数量
-var game_active = true  # 游戏状态标志
-var ball_scene = preload("res://scenes/ball.tscn")  # 加载球对象场景
-var ball_explosion_scene = preload("res://scenes/ball_explosion.tscn")  # 加载球爆炸对象场景
-var ball_expired_scene = preload("res://scenes/ball_expired.tscn")  # 加载球自然消失对象场景
+var score = 0 # 分数
+var killed_count = 0 # 击毁石头的数量
+var game_active = true # 游戏状态标志
+var ball_scene = preload("res://scenes/ball.tscn") # 加载球对象场景
+var ball_explosion_scene = preload("res://scenes/ball_explosion.tscn") # 加载球爆炸对象场景
+var ball_expired_scene = preload("res://scenes/ball_expired.tscn") # 加载球自然消失对象场景
 var split_scene = preload("res://scenes/split.tscn")
 
-const INIT_TIMER_INTERVAL = 1.0  # 初始生成间隔
-var timer_interval = INIT_TIMER_INTERVAL  # 初始生成间隔
+const INIT_TIMER_INTERVAL = 1.0 # 初始生成间隔
+var timer_interval = INIT_TIMER_INTERVAL # 初始生成间隔
 
 const INIT_BALL_SHRINK_SPEED = 0.15
 
-var ball_shrink_speed = INIT_BALL_SHRINK_SPEED  # 当前难度下，小球掉落速度
+var ball_shrink_speed = INIT_BALL_SHRINK_SPEED # 当前难度下，小球掉落速度
 const MAX_BALL_SHRINK_SPEED = 10
 """最快小球缩减速度"""
 
@@ -20,7 +20,7 @@ const MAX_BALL_SHRINK_SPEED = 10
 @onready var score_label = $CanvasLayer/ScoreLabel
 @onready var history_label = $CanvasLayer/History
 
-const GENERATE_PADDING = 100  
+const GENERATE_PADDING = 100
 """生成的边距"""
 const MIN_GENERATE_INTERVAL = 0.4
 """最短生成间隔"""
@@ -35,17 +35,16 @@ func _ready():
 	var theme = preload("res://assets/fonts/unifont-16.0.02.otf")
 	$CanvasLayer/RestartButton.theme = theme
 	
-	$Timer.start()  # 开始生成球
+	$Timer.start() # 开始生成球
 	print("start!")
 	var engine_version = Engine.get_version_info()
 	var project_ver = ProjectSettings.get_setting("application/config/version")
 	$CanvasLayer/Version.text = "engine_version: %d.%d.%d\nproject_ver: %s" % [
-		engine_version.major, 
-		engine_version.minor, 
+		engine_version.major,
+		engine_version.minor,
 		engine_version.patch,
 		project_ver
 	]
-
 
 
 # 生成一个随机位置的球
@@ -83,7 +82,7 @@ func update_ui():
 	]
 	var history_label_text = "\n"
 	for i in range(len(user_killed_history)):
-		history_label_text += "%d: %d\n" % [i+1, user_killed_history[i]]
+		history_label_text += "%d: %d\n" % [i + 1, user_killed_history[i]]
 	history_label.text = "history: %s" % [history_label_text]
 
 
@@ -115,7 +114,7 @@ func _on_ball_clicked(ball_dead_position, ball_dead_scale):
 func _on_ball_expired(ball_dead_position):
 	if !game_active:
 		return
-	score -= 2  # 扣分幅度大于加分
+	score -= 2 # 扣分幅度大于加分
 
 	# 增加消失效果
 	var ball_expired = ball_expired_scene.instantiate()
@@ -141,15 +140,15 @@ func game_over():
 	
 	# 批量删除
 	for ball in balls:
-		ball.queue_free()  # 安全删除节点
+		ball.queue_free() # 安全删除节点
 	
 	var animations = get_tree().get_nodes_in_group("ball_animations")
 	for animation in animations:
-		animation.queue_free()  # 安全删除节点
+		animation.queue_free() # 安全删除节点
 
 	# 可选：立即强制释放内存
-	Engine.get_main_loop().process_frame  # 等待一帧
-	RenderingServer.force_draw()          # 强制渲染刷新
+	Engine.get_main_loop().process_frame # 等待一帧
+	RenderingServer.force_draw() # 强制渲染刷新
 	
 	$CanvasLayer/GameOverLabel.visible = true
 	$CanvasLayer/RestartButton.visible = true

@@ -15,6 +15,7 @@ dest_files=["res://.godot/imported/unifont-16.0.02.otf-8ce69509e9a62ece8be3b25b5
 Rendering=null
 antialiasing=1
 generate_mipmaps=false
+disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48

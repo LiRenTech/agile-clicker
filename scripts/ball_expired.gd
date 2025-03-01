@@ -9,4 +9,4 @@ func _ready():
 
 
 func _on_animation_finished():
-	get_parent().queue_free()  # 动画完成后自动销毁父节点
+	get_parent().queue_free() # 动画完成后自动销毁父节点

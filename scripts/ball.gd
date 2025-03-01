@@ -1,18 +1,18 @@
 extends Node2D
 
 # 定义一个自定义信号，用于通知主场景球被点击
-signal ball_expired  # 自然消失扣分信号
-signal ball_clicked  # 点击加分信号
+signal ball_expired # 自然消失扣分信号
+signal ball_clicked # 点击加分信号
 
-@export var shrink_speed: float = 0.2  # 缩小速度（可在 Inspector 调整）
-@export var attraction_strength: float = 100.0  # 引力强度
+@export var shrink_speed: float = 0.2 # 缩小速度（可在 Inspector 调整）
+@export var attraction_strength: float = 100.0 # 引力强度
 
 
 func _physics_process(delta):
 	# 吸引力影响
-	var mouse_pos = get_viewport().get_mouse_position()  # 获取鼠标位置
-	var direction = (mouse_pos - position).normalized()  # 计算方向向量
-	position += direction * self.attraction_strength * delta  # 根据引力更新位置
+	var mouse_pos = get_viewport().get_mouse_position() # 获取鼠标位置
+	var direction = (mouse_pos - position).normalized() # 计算方向向量
+	position += direction * self.attraction_strength * delta # 根据引力更新位置
 	
 	# 持续缩小
 	scale -= Vector2.ONE * shrink_speed * delta
